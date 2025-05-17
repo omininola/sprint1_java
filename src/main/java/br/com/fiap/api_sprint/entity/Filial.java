@@ -3,6 +3,8 @@ package br.com.fiap.api_sprint.entity;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -36,6 +38,7 @@ public class Filial {
   @Column(name = "endereco")
   private String endereco;
 
+  @JsonManagedReference
   @OneToMany(mappedBy = "filial", cascade = CascadeType.ALL, orphanRemoval = true)
   private List<Area> areas = new ArrayList<>();
 }

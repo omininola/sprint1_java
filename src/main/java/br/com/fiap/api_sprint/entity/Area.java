@@ -1,5 +1,7 @@
 package br.com.fiap.api_sprint.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -30,6 +32,7 @@ public class Area {
   @Column(name = "status")
   private String status;
 
+  @JsonBackReference
   @ManyToOne(optional = false)
   @JoinColumn(name = "filial_id", nullable = false)
   private Filial filial;
