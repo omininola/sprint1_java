@@ -1,0 +1,77 @@
+package br.com.fiap.api_sprint.controller;
+
+import java.util.Optional;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
+
+import br.com.fiap.api_sprint.dto.area.AreaRequestDTO;
+import br.com.fiap.api_sprint.dto.area.AreaResponseDTO;
+import br.com.fiap.api_sprint.service.AreaService;
+import jakarta.validation.Valid;
+
+@RestController
+@RequestMapping("/areas")
+public class AreaController {
+
+  @Autowired
+  public AreaService areaService;
+
+  // Create - POST
+  @PostMapping
+  public ResponseEntity<AreaResponseDTO> createArea(@Valid @RequestBody AreaRequestDTO areaRequestDTO) {
+    AreaResponseDTO area = areaService.save(areaRequestDTO);
+    return new ResponseEntity<>(area, HttpStatus.CREATED);
+  }
+
+  // Read - GET
+  @GetMapping
+  public ResponseEntity<Page<AreaResponseDTO>> readAllAreas() {
+    Page<AreaResponseDTO> areas = areaService.findAll();
+    return new ResponseEntity<>(areas, HttpStatus.OK);
+  }
+
+  // Read by Filial Name - GET
+  @GetMapping("/search")
+  public ResponseEntity<Page<AreaResponseDTO>> searchAreasByFilial(
+      @RequestParam(value = "filial") String filial) {
+    Page<AreaResponseDTO> areas = areaService.searchAreasByFilial(filial);
+    return new ResponseEntity<>(areas, HttpStatus.OK);
+  }
+
+  // Update
+  @PutMapping("/{id}")
+  public ResponseEntity<AreaResponseDTO> updateArea(@RequestBody AreaRequestDTO areaRequestDTO,
+      @PathVariable Long id) {
+    Optional<AreaResponseDTO> area = areaService.update(id, areaRequestDTO);
+
+    if (area.isEmpty()) {
+      return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+    }
+
+    return new ResponseEntity<>(area.get(), HttpStatus.OK);
+  }
+
+  // Delete
+  @DeleteMapping("/{id}")
+  public ResponseEntity<AreaResponseDTO> deleteArea(@PathVariable Long id) {
+    Optional<AreaResponseDTO> area = areaService.delete(id);
+
+    if (area.isEmpty()) {
+      return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+    }
+
+    return new ResponseEntity<>(area.get(), HttpStatus.NO_CONTENT);
+  }
+}
