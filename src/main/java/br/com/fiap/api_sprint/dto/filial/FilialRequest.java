@@ -11,7 +11,7 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class FilialRequestDTO {
+public class FilialRequest {
 
   @NotBlank(message = "Nome não pode ser vazio")
   @Size(min = 3, max = 50, message = "Nome deve ter entre 3 e 50 caracteres")

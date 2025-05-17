@@ -15,8 +15,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import br.com.fiap.api_sprint.dto.filial.FilialRequestDTO;
-import br.com.fiap.api_sprint.dto.filial.FilialResponseDTO;
+import br.com.fiap.api_sprint.dto.filial.FilialRequest;
+import br.com.fiap.api_sprint.dto.filial.FilialResponse;
 import br.com.fiap.api_sprint.service.FilialService;
 import jakarta.validation.Valid;
 
@@ -29,22 +29,22 @@ public class FilialController {
 
   // Create - POST
   @PostMapping
-  public ResponseEntity<FilialResponseDTO> createFilial(@Valid @RequestBody FilialRequestDTO filialRequestDTO) {
-    FilialResponseDTO filial = filialService.save(filialRequestDTO);
+  public ResponseEntity<FilialResponse> createFilial(@Valid @RequestBody FilialRequest filialRequestDTO) {
+    FilialResponse filial = filialService.save(filialRequestDTO);
     return new ResponseEntity<>(filial, HttpStatus.CREATED);
   }
 
   // Read All - GET
   @GetMapping
-  public ResponseEntity<Page<FilialResponseDTO>> readAllFiliais() {
-    Page<FilialResponseDTO> page = filialService.findAll();
+  public ResponseEntity<Page<FilialResponse>> readAllFiliais() {
+    Page<FilialResponse> page = filialService.findAll();
     return new ResponseEntity<>(page, HttpStatus.OK);
   }
 
   // Read By Id = GET
   @GetMapping("/{id}")
-  public ResponseEntity<FilialResponseDTO> readFilial(@PathVariable Long id) {
-    Optional<FilialResponseDTO> filial = filialService.findById(id);
+  public ResponseEntity<FilialResponse> readFilial(@PathVariable Long id) {
+    Optional<FilialResponse> filial = filialService.findById(id);
 
     if (filial.isEmpty()) {
       return new ResponseEntity<>(HttpStatus.NOT_FOUND);
@@ -55,9 +55,9 @@ public class FilialController {
 
   // Update - PUT
   @PutMapping("/{id}")
-  public ResponseEntity<FilialResponseDTO> updateFilial(@PathVariable Long id,
-      @Valid @RequestBody FilialRequestDTO filialRequestDTO) {
-    Optional<FilialResponseDTO> filial = filialService.update(id, filialRequestDTO);
+  public ResponseEntity<FilialResponse> updateFilial(@PathVariable Long id,
+      @Valid @RequestBody FilialRequest filialRequestDTO) {
+    Optional<FilialResponse> filial = filialService.update(id, filialRequestDTO);
 
     if (filial.isEmpty()) {
       return new ResponseEntity<>(HttpStatus.NOT_FOUND);
@@ -68,8 +68,8 @@ public class FilialController {
 
   // Delete - Delete
   @DeleteMapping("/{id}")
-  public ResponseEntity<FilialResponseDTO> deleteFilial(@PathVariable Long id) {
-    Optional<FilialResponseDTO> filial = filialService.delete(id);
+  public ResponseEntity<FilialResponse> deleteFilial(@PathVariable Long id) {
+    Optional<FilialResponse> filial = filialService.delete(id);
 
     if (filial.isEmpty()) {
       return new ResponseEntity<>(HttpStatus.NOT_FOUND);

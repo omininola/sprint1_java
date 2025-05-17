@@ -7,35 +7,36 @@ import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 
-import br.com.fiap.api_sprint.dto.area.AreaRequestDTO;
-import br.com.fiap.api_sprint.dto.area.AreaResponseDTO;
+import br.com.fiap.api_sprint.dto.area.AreaRequest;
+import br.com.fiap.api_sprint.dto.area.AreaResponse;
 import br.com.fiap.api_sprint.entity.Area;
+import br.com.fiap.api_sprint.entity.Filial;
 
 public class AreaMapper {
 
-  public static Area requestToArea(AreaRequestDTO areaRequestDTO) {
+  public static Area requestToArea(AreaRequest areaRequestDTO, Filial filial) {
     Area area = new Area();
     area.setStatus(areaRequestDTO.getStatus());
-    area.setFilial(areaRequestDTO.getFilial());
+    // area.setFilial(filial);
     return area;
   }
 
-  public static AreaResponseDTO areaToResponse(Area area) {
-    AreaResponseDTO areaReponse = new AreaResponseDTO();
+  public static AreaResponse areaToResponse(Area area) {
+    AreaResponse areaReponse = new AreaResponse();
     areaReponse.setId(area.getId());
     areaReponse.setStatus(area.getStatus());
-    areaReponse.setFilial(area.getFilial());
+    // areaReponse.setFilial(filial);
     return areaReponse;
   }
 
-  public static List<AreaResponseDTO> areaToResponse(List<Area> areas) {
-    List<AreaResponseDTO> areasResponse = areas.stream().map(AreaMapper::areaToResponse).toList();
+  public static List<AreaResponse> areaToResponse(List<Area> areas) {
+    List<AreaResponse> areasResponse = areas.stream().map(AreaMapper::areaToResponse).toList();
     return areasResponse;
   }
 
-  public static Page<AreaResponseDTO> areasToPage(List<Area> areas) {
+  public static Page<AreaResponse> areasToPage(List<Area> areas) {
     Pageable defaultPage = PageRequest.of(0, 10);
-    Page<AreaResponseDTO> page = new PageImpl<AreaResponseDTO>(AreaMapper.areaToResponse(areas), defaultPage, 10);
+    Page<AreaResponse> page = new PageImpl<AreaResponse>(AreaMapper.areaToResponse(areas), defaultPage, 10);
     return page;
   }
 

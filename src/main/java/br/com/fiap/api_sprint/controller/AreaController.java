@@ -16,8 +16,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import br.com.fiap.api_sprint.dto.area.AreaRequestDTO;
-import br.com.fiap.api_sprint.dto.area.AreaResponseDTO;
+import br.com.fiap.api_sprint.dto.area.AreaRequest;
+import br.com.fiap.api_sprint.dto.area.AreaResponse;
 import br.com.fiap.api_sprint.service.AreaService;
 import jakarta.validation.Valid;
 
@@ -30,31 +30,31 @@ public class AreaController {
 
   // Create - POST
   @PostMapping
-  public ResponseEntity<AreaResponseDTO> createArea(@Valid @RequestBody AreaRequestDTO areaRequestDTO) {
-    AreaResponseDTO area = areaService.save(areaRequestDTO);
+  public ResponseEntity<AreaResponse> createArea(@Valid @RequestBody AreaRequest areaRequestDTO) {
+    AreaResponse area = areaService.save(areaRequestDTO);
     return new ResponseEntity<>(area, HttpStatus.CREATED);
   }
 
   // Read - GET
   @GetMapping
-  public ResponseEntity<Page<AreaResponseDTO>> readAllAreas() {
-    Page<AreaResponseDTO> areas = areaService.findAll();
+  public ResponseEntity<Page<AreaResponse>> readAllAreas() {
+    Page<AreaResponse> areas = areaService.findAll();
     return new ResponseEntity<>(areas, HttpStatus.OK);
   }
 
   // Read by Filial Name - GET
   @GetMapping("/search")
-  public ResponseEntity<Page<AreaResponseDTO>> searchAreasByFilial(
+  public ResponseEntity<Page<AreaResponse>> searchAreasByFilial(
       @RequestParam(value = "filial") String filial) {
-    Page<AreaResponseDTO> areas = areaService.searchAreasByFilial(filial);
+    Page<AreaResponse> areas = areaService.searchAreasByFilial(filial);
     return new ResponseEntity<>(areas, HttpStatus.OK);
   }
 
   // Update
   @PutMapping("/{id}")
-  public ResponseEntity<AreaResponseDTO> updateArea(@RequestBody AreaRequestDTO areaRequestDTO,
+  public ResponseEntity<AreaResponse> updateArea(@RequestBody AreaRequest areaRequestDTO,
       @PathVariable Long id) {
-    Optional<AreaResponseDTO> area = areaService.update(id, areaRequestDTO);
+    Optional<AreaResponse> area = areaService.update(id, areaRequestDTO);
 
     if (area.isEmpty()) {
       return new ResponseEntity<>(HttpStatus.NOT_FOUND);
@@ -65,8 +65,8 @@ public class AreaController {
 
   // Delete
   @DeleteMapping("/{id}")
-  public ResponseEntity<AreaResponseDTO> deleteArea(@PathVariable Long id) {
-    Optional<AreaResponseDTO> area = areaService.delete(id);
+  public ResponseEntity<AreaResponse> deleteArea(@PathVariable Long id) {
+    Optional<AreaResponse> area = areaService.delete(id);
 
     if (area.isEmpty()) {
       return new ResponseEntity<>(HttpStatus.NOT_FOUND);

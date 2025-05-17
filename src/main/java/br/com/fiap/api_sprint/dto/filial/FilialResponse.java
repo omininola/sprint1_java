@@ -12,7 +12,7 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class FilialResponseDTO {
+public class FilialResponse {
   Long id;
   String nome;
   String endereco;

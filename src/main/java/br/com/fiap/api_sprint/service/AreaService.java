@@ -9,11 +9,13 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import br.com.fiap.api_sprint.dto.area.AreaRequestDTO;
-import br.com.fiap.api_sprint.dto.area.AreaResponseDTO;
+import br.com.fiap.api_sprint.dto.area.AreaRequest;
+import br.com.fiap.api_sprint.dto.area.AreaResponse;
 import br.com.fiap.api_sprint.entity.Area;
+import br.com.fiap.api_sprint.entity.Filial;
 import br.com.fiap.api_sprint.mapper.AreaMapper;
 import br.com.fiap.api_sprint.repository.AreaRepository;
+import br.com.fiap.api_sprint.repository.FilialRepository;
 
 @Service
 public class AreaService {
@@ -21,54 +23,59 @@ public class AreaService {
   @Autowired
   public AreaRepository areaRepository;
 
+  @Autowired
+  public FilialRepository filialRepository;
+
   // Create Areas
-  public AreaResponseDTO save(AreaRequestDTO areaRequestDTO) {
-    Area area = areaRepository.save(AreaMapper.requestToArea(areaRequestDTO));
+  public AreaResponse save(AreaRequest areaRequest) {
+    Optional<Filial> filial = filialRepository.findById(areaRequest.getFilialId());
+    Area area = areaRepository.save(AreaMapper.requestToArea(areaRequest, filial.get()));
     return AreaMapper.areaToResponse(area);
   }
 
   // Read All Areas
-  public Page<AreaResponseDTO> findAll() {
+  public Page<AreaResponse> findAll() {
     List<Area> areas = areaRepository.findAll();
-    Page<AreaResponseDTO> page = AreaMapper.areasToPage(areas);
+    Page<AreaResponse> page = AreaMapper.areasToPage(areas);
     return page;
   }
 
   // Read Areas filtered by their filial name
-  public Page<AreaResponseDTO> searchAreasByFilial(String filial) {
+  public Page<AreaResponse> searchAreasByFilial(String filial) {
     Pageable defaultPage = PageRequest.of(0, 10);
     List<Area> areas = areaRepository.findByFilialNome(filial, defaultPage);
-    Page<AreaResponseDTO> page = AreaMapper.areasToPage(areas);
+    Page<AreaResponse> page = AreaMapper.areasToPage(areas);
     return page;
   }
 
   // Update Area
-  public Optional<AreaResponseDTO> update(Long id, AreaRequestDTO areaRequestDTO) {
+  public Optional<AreaResponse> update(Long id, AreaRequest areaRequest) {
     Optional<Area> existingArea = areaRepository.findById(id);
-    Area areaUpdated = AreaMapper.requestToArea(areaRequestDTO);
+    Optional<Filial> filial = filialRepository.findById(areaRequest.getFilialId());
+    Area areaUpdated = AreaMapper.requestToArea(areaRequest, filial.get());
     areaUpdated.setId(id);
-    AreaResponseDTO areaResponse = null;
+    AreaResponse areaResponse = null;
 
     if (existingArea.isPresent()) {
       areaRepository.save(areaUpdated);
       areaResponse = AreaMapper.areaToResponse(areaUpdated);
     }
 
-    Optional<AreaResponseDTO> optionalAreaResponse = Optional.ofNullable(areaResponse);
+    Optional<AreaResponse> optionalAreaResponse = Optional.ofNullable(areaResponse);
     return optionalAreaResponse;
   }
 
   // Delete Area
-  public Optional<AreaResponseDTO> delete(Long id) {
+  public Optional<AreaResponse> delete(Long id) {
     Optional<Area> area = areaRepository.findById(id);
-    AreaResponseDTO areaResponse = null;
+    AreaResponse areaResponse = null;
 
     if (area.isPresent()) {
       areaResponse = AreaMapper.areaToResponse(area.get());
       areaRepository.delete(area.get());
     }
 
-    Optional<AreaResponseDTO> optionalAreaResponseDTO = Optional.ofNullable(areaResponse);
+    Optional<AreaResponse> optionalAreaResponseDTO = Optional.ofNullable(areaResponse);
     return optionalAreaResponseDTO;
   }
 
