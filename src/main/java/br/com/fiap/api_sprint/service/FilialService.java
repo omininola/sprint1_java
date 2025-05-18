@@ -5,6 +5,7 @@ import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import br.com.fiap.api_sprint.dto.filial.FilialRequest;
@@ -28,6 +29,20 @@ public class FilialService {
   // Read All Filiais
   public Page<FilialResponse> findAll() {
     List<Filial> filiais = filialReposotory.findAll();
+    Page<FilialResponse> page = FilialMapper.filiaisToPage(filiais);
+    return page;
+  }
+
+  // Read All Filiais with Pagination
+  public Page<FilialResponse> findAll(int page, int size) {
+    List<Filial> filiais = filialReposotory.findAll(PageRequest.of(page, size)).getContent();
+    Page<FilialResponse> pageResponse = FilialMapper.filiaisToPage(filiais);
+    return pageResponse;
+  }
+
+  // Read Filial By Name
+  public Page<FilialResponse> searchByName(String nome) {
+    List<Filial> filiais = filialReposotory.findByNome(nome);
     Page<FilialResponse> page = FilialMapper.filiaisToPage(filiais);
     return page;
   }

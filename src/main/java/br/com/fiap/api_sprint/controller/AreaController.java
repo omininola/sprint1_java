@@ -35,10 +35,19 @@ public class AreaController {
     return new ResponseEntity<>(area, HttpStatus.CREATED);
   }
 
-  // Read - GET
+  // Read All - GET
   @GetMapping
   public ResponseEntity<Page<AreaResponse>> readAllAreas() {
     Page<AreaResponse> areas = areaService.findAll();
+    return new ResponseEntity<>(areas, HttpStatus.OK);
+  }
+
+  // Read All Page Control - GET
+  @GetMapping("/pagecontroll")
+  public ResponseEntity<Page<AreaResponse>> readAllAreasPage(
+      @RequestParam(value = "page", defaultValue = "0") int page,
+      @RequestParam(value = "size", defaultValue = "10") int size) {
+    Page<AreaResponse> areas = areaService.findAll(page, size);
     return new ResponseEntity<>(areas, HttpStatus.OK);
   }
 

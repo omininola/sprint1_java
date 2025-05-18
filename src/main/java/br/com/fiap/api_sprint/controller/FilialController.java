@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import br.com.fiap.api_sprint.dto.filial.FilialRequest;
@@ -38,6 +39,22 @@ public class FilialController {
   @GetMapping
   public ResponseEntity<Page<FilialResponse>> readAllFiliais() {
     Page<FilialResponse> page = filialService.findAll();
+    return new ResponseEntity<>(page, HttpStatus.OK);
+  }
+
+  // Read All Page Controll - GET
+  @GetMapping("/pagecontroll")
+  public ResponseEntity<Page<FilialResponse>> readAllFiliaisPage(
+      @RequestParam(value = "page", defaultValue = "0") int page,
+      @RequestParam(value = "size", defaultValue = "10") int size) {
+    Page<FilialResponse> pageResponse = filialService.findAll(page, size);
+    return new ResponseEntity<>(pageResponse, HttpStatus.OK);
+  }
+
+  // Read By Filial Name - GET
+  @GetMapping("/search")
+  public ResponseEntity<Page<FilialResponse>> readFilialByName(@RequestParam String nome) {
+    Page<FilialResponse> page = filialService.searchByName(nome);
     return new ResponseEntity<>(page, HttpStatus.OK);
   }
 

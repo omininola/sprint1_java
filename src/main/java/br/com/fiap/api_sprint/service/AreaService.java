@@ -42,6 +42,13 @@ public class AreaService {
     return page;
   }
 
+  // Read All Areas
+  public Page<AreaResponse> findAll(int page, int size) {
+    List<Area> areas = areaRepository.findAll(PageRequest.of(page, size)).getContent();
+    Page<AreaResponse> pageResponse = AreaMapper.areasToPage(areas);
+    return pageResponse;
+  }
+
   // Read Areas filtered by their filial name
   public Page<AreaResponse> searchAreasByFilial(String filial) {
     Pageable defaultPage = PageRequest.of(0, 10);
