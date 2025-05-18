@@ -46,8 +46,9 @@ public class AreaController {
   @GetMapping("/pagecontroll")
   public ResponseEntity<Page<AreaResponse>> readAllAreasPage(
       @RequestParam(value = "page", defaultValue = "0") int page,
-      @RequestParam(value = "size", defaultValue = "10") int size) {
-    Page<AreaResponse> areas = areaService.findAll(page, size);
+      @RequestParam(value = "size", defaultValue = "10") int size,
+      @RequestParam(value = "sort", defaultValue = "id") String field) {
+    Page<AreaResponse> areas = areaService.findAll(page, size, field);
     return new ResponseEntity<>(areas, HttpStatus.OK);
   }
 

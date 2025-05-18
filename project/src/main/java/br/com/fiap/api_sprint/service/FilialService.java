@@ -4,8 +4,11 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import br.com.fiap.api_sprint.dto.filial.FilialRequest;
@@ -34,13 +37,16 @@ public class FilialService {
   }
 
   // Read All Filiais with Pagination
-  public Page<FilialResponse> findAll(int page, int size) {
-    List<Filial> filiais = filialReposotory.findAll(PageRequest.of(page, size)).getContent();
+  public Page<FilialResponse> findAll(int page, int size, String field) {
+    Sort sort = Sort.by(Sort.Direction.ASC, field);
+    Pageable pageable = PageRequest.of(page, size, sort);
+    List<Filial> filiais = filialReposotory.findAll(pageable).getContent();
     Page<FilialResponse> pageResponse = FilialMapper.filiaisToPage(filiais);
     return pageResponse;
   }
 
   // Read Filial By Name
+  @Cacheable("filialByName")
   public Page<FilialResponse> searchByName(String nome) {
     List<Filial> filiais = filialReposotory.findByNome(nome);
     Page<FilialResponse> page = FilialMapper.filiaisToPage(filiais);
@@ -48,6 +54,7 @@ public class FilialService {
   }
 
   // Read Filial By Id
+  @Cacheable("filialById")
   public Optional<FilialResponse> findById(Long id) {
     Optional<Filial> filial = filialReposotory.findById(id);
     Optional<FilialResponse> optionalFilialResponse = Optional

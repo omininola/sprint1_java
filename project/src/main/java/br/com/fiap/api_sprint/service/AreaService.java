@@ -4,9 +4,11 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import br.com.fiap.api_sprint.dto.area.AreaRequest;
@@ -43,13 +45,16 @@ public class AreaService {
   }
 
   // Read All Areas
-  public Page<AreaResponse> findAll(int page, int size) {
-    List<Area> areas = areaRepository.findAll(PageRequest.of(page, size)).getContent();
+  public Page<AreaResponse> findAll(int page, int size, String field) {
+    Sort sort = Sort.by(Sort.Direction.ASC, field);
+    Pageable pageable = PageRequest.of(page, size, sort);
+    List<Area> areas = areaRepository.findAll(pageable).getContent();
     Page<AreaResponse> pageResponse = AreaMapper.areasToPage(areas);
     return pageResponse;
   }
 
   // Read Areas filtered by their filial name
+  @Cacheable("areaByFilial")
   public Page<AreaResponse> searchAreasByFilial(String filial) {
     Pageable defaultPage = PageRequest.of(0, 10);
     List<Area> areas = areaRepository.findByFilialNome(filial, defaultPage);

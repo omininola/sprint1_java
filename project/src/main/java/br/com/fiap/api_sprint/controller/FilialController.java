@@ -46,8 +46,9 @@ public class FilialController {
   @GetMapping("/pagecontroll")
   public ResponseEntity<Page<FilialResponse>> readAllFiliaisPage(
       @RequestParam(value = "page", defaultValue = "0") int page,
-      @RequestParam(value = "size", defaultValue = "10") int size) {
-    Page<FilialResponse> pageResponse = filialService.findAll(page, size);
+      @RequestParam(value = "size", defaultValue = "10") int size,
+      @RequestParam(value = "sort", defaultValue = "id") String field) {
+    Page<FilialResponse> pageResponse = filialService.findAll(page, size, field);
     return new ResponseEntity<>(pageResponse, HttpStatus.OK);
   }
 
