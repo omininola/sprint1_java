@@ -30,8 +30,8 @@ public class FilialMapper {
   }
 
   public static List<FilialResponse> filialToResponse(List<Filial> filiais) {
-    List<FilialResponse> filiaisResponseDTO = filiais.stream().map(FilialMapper::filialToResponse).toList();
-    return filiaisResponseDTO;
+    List<FilialResponse> filiaisResponse = filiais.stream().map(FilialMapper::filialToResponse).toList();
+    return filiaisResponse;
   }
 
   public static Page<FilialResponse> filiaisToPage(List<Filial> filiais) {

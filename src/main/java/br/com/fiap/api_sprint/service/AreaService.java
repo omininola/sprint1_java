@@ -16,6 +16,7 @@ import br.com.fiap.api_sprint.entity.Filial;
 import br.com.fiap.api_sprint.mapper.AreaMapper;
 import br.com.fiap.api_sprint.repository.AreaRepository;
 import br.com.fiap.api_sprint.repository.FilialRepository;
+import jakarta.persistence.EntityNotFoundException;
 
 @Service
 public class AreaService {
@@ -28,8 +29,9 @@ public class AreaService {
 
   // Create Areas
   public AreaResponse save(AreaRequest areaRequest) {
-    Optional<Filial> filial = filialRepository.findById(areaRequest.getFilialId());
-    Area area = areaRepository.save(AreaMapper.requestToArea(areaRequest, filial.get()));
+    Filial filial = filialRepository.findById(areaRequest.getFilialId())
+        .orElseThrow(() -> new EntityNotFoundException("Filial não encontrada"));
+    Area area = areaRepository.save(AreaMapper.requestToArea(areaRequest, filial));
     return AreaMapper.areaToResponse(area);
   }
 
@@ -51,8 +53,9 @@ public class AreaService {
   // Update Area
   public Optional<AreaResponse> update(Long id, AreaRequest areaRequest) {
     Optional<Area> existingArea = areaRepository.findById(id);
-    Optional<Filial> filial = filialRepository.findById(areaRequest.getFilialId());
-    Area areaUpdated = AreaMapper.requestToArea(areaRequest, filial.get());
+    Filial filial = filialRepository.findById(areaRequest.getFilialId())
+        .orElseThrow(() -> new EntityNotFoundException("Filial não encontrada"));
+    Area areaUpdated = AreaMapper.requestToArea(areaRequest, filial);
     areaUpdated.setId(id);
     AreaResponse areaResponse = null;
 
@@ -75,8 +78,8 @@ public class AreaService {
       areaRepository.delete(area.get());
     }
 
-    Optional<AreaResponse> optionalAreaResponseDTO = Optional.ofNullable(areaResponse);
-    return optionalAreaResponseDTO;
+    Optional<AreaResponse> optionalAreaResponse = Optional.ofNullable(areaResponse);
+    return optionalAreaResponse;
   }
 
 }

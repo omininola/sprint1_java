@@ -30,8 +30,8 @@ public class AreaController {
 
   // Create - POST
   @PostMapping
-  public ResponseEntity<AreaResponse> createArea(@Valid @RequestBody AreaRequest areaRequestDTO) {
-    AreaResponse area = areaService.save(areaRequestDTO);
+  public ResponseEntity<AreaResponse> createArea(@Valid @RequestBody AreaRequest areaRequest) {
+    AreaResponse area = areaService.save(areaRequest);
     return new ResponseEntity<>(area, HttpStatus.CREATED);
   }
 
@@ -52,9 +52,9 @@ public class AreaController {
 
   // Update
   @PutMapping("/{id}")
-  public ResponseEntity<AreaResponse> updateArea(@RequestBody AreaRequest areaRequestDTO,
+  public ResponseEntity<AreaResponse> updateArea(@RequestBody AreaRequest areaRequest,
       @PathVariable Long id) {
-    Optional<AreaResponse> area = areaService.update(id, areaRequestDTO);
+    Optional<AreaResponse> area = areaService.update(id, areaRequest);
 
     if (area.isEmpty()) {
       return new ResponseEntity<>(HttpStatus.NOT_FOUND);

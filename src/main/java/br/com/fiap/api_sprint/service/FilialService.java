@@ -20,8 +20,8 @@ public class FilialService {
   public FilialRepository filialReposotory;
 
   // Create Filiais
-  public FilialResponse save(FilialRequest filialRequestDTO) {
-    Filial filial = filialReposotory.save(FilialMapper.requestToFilial(filialRequestDTO));
+  public FilialResponse save(FilialRequest filialRequest) {
+    Filial filial = filialReposotory.save(FilialMapper.requestToFilial(filialRequest));
     return FilialMapper.filialToResponse(filial);
   }
 
@@ -41,9 +41,9 @@ public class FilialService {
   }
 
   // Update Filial
-  public Optional<FilialResponse> update(Long id, FilialRequest filialRequestDTO) {
+  public Optional<FilialResponse> update(Long id, FilialRequest filialRequest) {
     Optional<Filial> existingFilial = filialReposotory.findById(id);
-    Filial updateFilial = FilialMapper.requestToFilial(filialRequestDTO);
+    Filial updateFilial = FilialMapper.requestToFilial(filialRequest);
     updateFilial.setId(id);
     FilialResponse filialResponse = null;
 

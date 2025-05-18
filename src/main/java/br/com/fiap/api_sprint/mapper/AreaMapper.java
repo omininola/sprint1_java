@@ -14,10 +14,10 @@ import br.com.fiap.api_sprint.entity.Filial;
 
 public class AreaMapper {
 
-  public static Area requestToArea(AreaRequest areaRequestDTO, Filial filial) {
+  public static Area requestToArea(AreaRequest areaRequest, Filial filial) {
     Area area = new Area();
-    area.setStatus(areaRequestDTO.getStatus());
-    // area.setFilial(filial);
+    area.setStatus(areaRequest.getStatus());
+    area.setFilial(filial);
     return area;
   }
 
@@ -25,7 +25,7 @@ public class AreaMapper {
     AreaResponse areaReponse = new AreaResponse();
     areaReponse.setId(area.getId());
     areaReponse.setStatus(area.getStatus());
-    // areaReponse.setFilial(filial);
+    areaReponse.setFilial(area.getFilial());
     return areaReponse;
   }
 

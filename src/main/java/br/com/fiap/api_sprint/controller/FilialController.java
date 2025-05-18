@@ -29,8 +29,8 @@ public class FilialController {
 
   // Create - POST
   @PostMapping
-  public ResponseEntity<FilialResponse> createFilial(@Valid @RequestBody FilialRequest filialRequestDTO) {
-    FilialResponse filial = filialService.save(filialRequestDTO);
+  public ResponseEntity<FilialResponse> createFilial(@Valid @RequestBody FilialRequest filialRequest) {
+    FilialResponse filial = filialService.save(filialRequest);
     return new ResponseEntity<>(filial, HttpStatus.CREATED);
   }
 
@@ -56,8 +56,8 @@ public class FilialController {
   // Update - PUT
   @PutMapping("/{id}")
   public ResponseEntity<FilialResponse> updateFilial(@PathVariable Long id,
-      @Valid @RequestBody FilialRequest filialRequestDTO) {
-    Optional<FilialResponse> filial = filialService.update(id, filialRequestDTO);
+      @Valid @RequestBody FilialRequest filialRequest) {
+    Optional<FilialResponse> filial = filialService.update(id, filialRequest);
 
     if (filial.isEmpty()) {
       return new ResponseEntity<>(HttpStatus.NOT_FOUND);
