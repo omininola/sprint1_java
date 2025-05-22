@@ -37,17 +37,11 @@ public class AreaController {
 
   // Read All - GET
   @GetMapping
-  public ResponseEntity<Page<AreaResponse>> readAllAreas() {
-    Page<AreaResponse> areas = areaService.findAll();
-    return new ResponseEntity<>(areas, HttpStatus.OK);
-  }
-
-  // Read All Page Control - GET
-  @GetMapping("/pagecontroll")
-  public ResponseEntity<Page<AreaResponse>> readAllAreasPage(
+  public ResponseEntity<Page<AreaResponse>> readAllAreas(
       @RequestParam(value = "page", defaultValue = "0") int page,
       @RequestParam(value = "size", defaultValue = "10") int size,
-      @RequestParam(value = "sort", defaultValue = "id") String field) {
+      @RequestParam(value = "sort", defaultValue = "id") String field
+  ) {
     Page<AreaResponse> areas = areaService.findAll(page, size, field);
     return new ResponseEntity<>(areas, HttpStatus.OK);
   }

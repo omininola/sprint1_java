@@ -38,13 +38,6 @@ public class AreaService {
   }
 
   // Read All Areas
-  public Page<AreaResponse> findAll() {
-    List<Area> areas = areaRepository.findAll();
-    Page<AreaResponse> page = AreaMapper.areasToPage(areas);
-    return page;
-  }
-
-  // Read All Areas
   public Page<AreaResponse> findAll(int page, int size, String field) {
     Sort sort = Sort.by(Sort.Direction.ASC, field);
     Pageable pageable = PageRequest.of(page, size, sort);

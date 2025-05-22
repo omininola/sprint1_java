@@ -29,14 +29,7 @@ public class FilialService {
     return FilialMapper.filialToResponse(filial);
   }
 
-  // Read All Filiais
-  public Page<FilialResponse> findAll() {
-    List<Filial> filiais = filialReposotory.findAll();
-    Page<FilialResponse> page = FilialMapper.filiaisToPage(filiais);
-    return page;
-  }
-
-  // Read All Filiais with Pagination
+  // Read All
   public Page<FilialResponse> findAll(int page, int size, String field) {
     Sort sort = Sort.by(Sort.Direction.ASC, field);
     Pageable pageable = PageRequest.of(page, size, sort);

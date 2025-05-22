@@ -143,8 +143,7 @@ URL Base -> **localhost:8080**
 | Método | Rota | Parametros | Descrição |
 | ------ | ---- | :--------: | --------- |
 | POST   | [/filiais](localhost:8080/filiais) | x | Cria uma nova instância de filial |
-| GET    | [/filiais](localhost:8080/filiais) | x | Retorna todas as filiais em forma de páginas |
-| GET    | [/filiais/pagecontroll](localhost:8080/filiais/pagecontroll?page=0&size=10&sort=nome) | page: number & size: number & sort: string | Retorna todas as filiais em forma de página, aleḿ de dar total controle à paginação e ordenar os resultados baseados no parâmetro `sort` |
+| GET    | [/filiais](localhost:8080/filiais?page=0&size=10&sort=nome) | page: number & size: number & sort: string | Retorna todas as filiais com controle de página e ordenação |
 | GET    | [/filiais/search](localhost:8080/filiais/search?nome=Filial1) | nome: string | Retorna todas as filiais que tem o nome passado no parâmetro |
 | GET    | [/filiais/{id}](localhost:8080/filiais/1) | x | Retorna a filial com o id fornecido |
 | PUT    | [/filiais/{id}](localhost:8080/filiais/1) | x | Atualiza a filial com o id fornecido |
@@ -164,8 +163,7 @@ URL Base -> **localhost:8080**
 | Método | Rota | Parametros | Descrição |
 | ------ | ---- | :--------: | --------- |
 | POST   | [/areas](localhost:8080/areas) | x | Cria uma nova instância de area |
-| GET    | [/areas](localhost:8080/areas) | x | Retorna todas as areas em forma de páginas |
-| GET    | [/areas/pagecontroll](localhost:8080/areas/pagecontroll?page=0&size=10&sort=status) | page: number & size: number & sort: string | Retorna todas as areas em forma de página, aleḿ de dar total controle à paginação e ordenar os resultados baseados no parâmetro `sort` |
+| GET    | [/areas](localhost:8080/areas?page=0&size=10&sort=status) | page: number & size: number & sort: string | Retorna todas as areas com controle de página e ordenação |
 | GET    | [/areas/search](localhost:8080/areas/search?filial=Filial1) | filial: string | Retorna todas as areas que pertencem à filial passada no parâmetro `filial` |
 | GET    | [/areas/{id}](localhost:8080/areas/1) | x | Retorna a area com o id fornecido |
 | PUT    | [/areas/{id}](localhost:8080/areas/1) | x | Atualiza a area com o id fornecido |

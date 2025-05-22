@@ -37,17 +37,11 @@ public class FilialController {
 
   // Read All - GET
   @GetMapping
-  public ResponseEntity<Page<FilialResponse>> readAllFiliais() {
-    Page<FilialResponse> page = filialService.findAll();
-    return new ResponseEntity<>(page, HttpStatus.OK);
-  }
-
-  // Read All Page Controll - GET
-  @GetMapping("/pagecontroll")
-  public ResponseEntity<Page<FilialResponse>> readAllFiliaisPage(
+  public ResponseEntity<Page<FilialResponse>> readAllFiliais(
       @RequestParam(value = "page", defaultValue = "0") int page,
       @RequestParam(value = "size", defaultValue = "10") int size,
-      @RequestParam(value = "sort", defaultValue = "id") String field) {
+      @RequestParam(value = "sort", defaultValue = "id") String field
+  ) {
     Page<FilialResponse> pageResponse = filialService.findAll(page, size, field);
     return new ResponseEntity<>(pageResponse, HttpStatus.OK);
   }
